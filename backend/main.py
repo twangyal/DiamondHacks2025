@@ -4,6 +4,8 @@ from sqlalchemy.ext.asyncio import AsyncEngine, create_async_engine
 from sqlalchemy.orm import Session
 import crud, schemas, database, security
 from fastapi.middleware.cors import CORSMiddleware
+import pricing_model.ai_model as ai_model  # Import the AI model for price optimization
+import joblib
 
 app = FastAPI()
 
@@ -217,3 +219,30 @@ def get_user_transactions(User: schemas.TokenData = Depends(security.decode_acce
                 )
             )
     return sales_data_response
+
+@app.post("/calculate_optimal_prices")
+def calculate_optimal_prices(User: schemas.TokenData = Depends(security.decode_access_token), db: Session = Depends(get_db)):
+    # Ensure the user is authenticated
+    if not User:
+        raise HTTPException(status_code=401, detail="Invalid authentication credentials")
+    
+    # Get the user id from the token
+    user = crud.get_user_by_username(db, username=User.username)
+    if not user:
+        raise HTTPException(status_code=404, detail="User not found")
+    
+    # Fetch all products for the seller
+    products = crud.get_products_by_seller_id(db, seller_id=user.id)
+    if not products:
+        raise HTTPException(status_code=404, detail="No products found for this user")
+    
+    # Calculate optimal prices for each product using the AI model
+    for product in products:
+        optimal_price = ai_model.calculate_optimal_price(product)
+        change = schemas.PriceChangeCreate(
+            product_id=product.id,
+            new_price=optimal_price
+        )
+        crud.create_price_change(db, change)
+
+    return {"Success": True, "message": f"Optimal prices calculated for {len(products)} products."}
