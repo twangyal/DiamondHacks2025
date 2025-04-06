@@ -220,7 +220,7 @@ def get_user_transactions(User: schemas.TokenData = Depends(security.decode_acce
             )
     return sales_data_response
 
-@app.post("/calculate_optimal_prices")
+@app.post("/optimize_pricing",)
 def calculate_optimal_prices(User: schemas.TokenData = Depends(security.decode_access_token), db: Session = Depends(get_db)):
     # Ensure the user is authenticated
     if not User:

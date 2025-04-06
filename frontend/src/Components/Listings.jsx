@@ -48,6 +48,36 @@ const Listings = () => {
         navigate('/create'); // Navigate to the "Create Listing" page
     };
 
+    const handleOptimizePricing = async () => {
+        const token = localStorage.getItem('accessToken');
+        if (!token) {
+            setError('User not authenticated');
+            return;
+        }
+
+        try {
+            const response = await axios.post('http://localhost:8000/optimize_pricing', {}, {
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json',
+                },
+            });
+            if (response.status === 200) {
+                alert('Pricing optimized successfully!');
+                setTimeout(() => {
+                    // Redirect to listings page or any other page after successful delete
+                    window.location.href = '/listings';
+                }, 500);
+                
+            } else {
+                setError('Error optimizing pricing');
+            }
+        } catch (error) {
+            setError('Error optimizing pricing');
+            console.error(error);
+        }
+    };
+
     return (
         <div className="min-h-screen bg-gray-100 p-6 relative">
             {/* Centered Title */}
@@ -70,6 +100,14 @@ const Listings = () => {
                 onClick={handleCreate}
             >
                 Create New Listing
+            </button>
+            <div></div>
+            {/* Optimize Pricing Button */}
+            <button
+                className="bg-green-500 text-white px-4 py-2 rounded-full mb-6 hover:bg-green-700 transition duration-300"
+                onClick={handleOptimizePricing}
+            >
+                Optimize Pricing
             </button>
     
             {/* Table with Listings */}
