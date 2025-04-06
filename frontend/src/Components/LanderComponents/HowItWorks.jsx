@@ -2,28 +2,48 @@ import React from 'react';
 
 function HowItWorks() {
     return (
-        <section id="how-it-works" className="py-20 bg-white">
-        <div className="text-center mb-10">
-            <h2 className="text-3xl font-bold">How It Works</h2>
-        </div>
-        <div className="flex flex-wrap justify-around">
-            <div className="w-full md:w-1/4 p-6 text-center">
-            <h3 className="text-xl font-semibold mb-4">Create an Account</h3>
-            <p>Sign up in seconds and get started.</p>
+        <section id="how-it-works" className="py-24 bg-white">
+            <div className="max-w-6xl mx-auto px-6">
+                <h2 className="text-4xl font-bold text-center mb-16 text-gray-800">How It Works</h2>
+                <div className="space-y-10">
+                    <div className="flex items-start justify-start space-x-6">
+                        <div className="w-16 h-16 bg-green-700 text-white flex items-center justify-center rounded-full shadow-md">
+                            <span className="text-2xl font-semibold">1</span>
+                        </div>
+                        <div>
+                            <h3 className="text-2xl font-semibold text-green-700 mb-4">Create an Account</h3>
+                            <p className="text-gray-600">Sign up in seconds to get started with buying and selling assets.</p>
+                        </div>
+                    </div>
+                    <div className="flex items-start justify-start space-x-6">
+                        <div className="w-16 h-16 bg-green-700 text-white flex items-center justify-center rounded-full shadow-md">
+                            <span className="text-2xl font-semibold">2</span>
+                        </div>
+                        <div>
+                            <h3 className="text-2xl font-semibold text-green-700 mb-4">Sell Items & Find Best Prices</h3>
+                            <p className="text-gray-600">List your items and use AI-powered tools to determine the best prices.</p>
+                        </div>
+                    </div>
+                    <div className="flex items-start justify-start space-x-6">
+                        <div className="w-16 h-16 bg-green-700 text-white flex items-center justify-center rounded-full shadow-md">
+                            <span className="text-2xl font-semibold">3</span>
+                        </div>
+                        <div>
+                            <h3 className="text-2xl font-semibold text-green-700 mb-4">Explore Other Items & Place on Hold</h3>
+                            <p className="text-gray-600">Browse through other items and place them on hold for up to a week.</p>
+                        </div>
+                    </div>
+                    <div className="flex items-start justify-start space-x-6">
+                        <div className="w-16 h-16 bg-green-700 text-white flex items-center justify-center rounded-full shadow-md">
+                            <span className="text-2xl font-semibold">4</span>
+                        </div>
+                        <div>
+                            <h3 className="text-2xl font-semibold text-green-700 mb-4">Buy It & Have Fun!</h3>
+                            <p className="text-gray-600">Complete the purchase and enjoy your assets!</p>
+                        </div>
+                    </div>
+                </div>
             </div>
-            <div className="w-full md:w-1/4 p-6 text-center">
-            <h3 className="text-xl font-semibold mb-4"></h3>
-            <p>Choose your starting capital and select the stocks or assets you want to trade.</p>
-            </div>
-            <div className="w-full md:w-1/4 p-6 text-center">
-            <h3 className="text-xl font-semibold mb-4">Simulate Trades</h3>
-            <p>Make trades based on real-time data and see how your decisions play out.</p>
-            </div>
-            <div className="w-full md:w-1/4 p-6 text-center">
-            <h3 className="text-xl font-semibold mb-4">Review Performance</h3>
-            <p>Analyze your trades and refine your strategies.</p>
-            </div>
-        </div>
         </section>
     );
 }

@@ -1,3 +1,4 @@
+/* lander.css – keep this minimal if you're using Tailwind */
 .Lander {
     font-family: Arial, sans-serif;
 }
@@ -11,3 +12,5 @@ h2 {
     font-size: 2em;
     text-align: center;
 }
+
+/* You can remove the nav, logo, and nav-links styles */

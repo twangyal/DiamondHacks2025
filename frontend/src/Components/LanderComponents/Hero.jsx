@@ -5,19 +5,30 @@ function Hero() {
     const navigate = useNavigate();
 
     return (
-        <section className="relative text-center py-40 bg-cover bg-center" style={{ backgroundImage: `url('/StockImage.jpg')` }}>
-            <div className="absolute inset-0 bg-black opacity-60"></div> {/* Semi-transparent overlay */}
-            <div className="relative z-10">
-                <h1 className="text-4xl md:text-6xl font-bold text-white mb-6">Price Your Stores in Real-time</h1>
-                <p className="text-lg md:text-2xl text-white mb-8">Find great deals for both buyer and seller</p>
-                <div className="space-x-4">
-                    <button className="bg-blue-600 text-white py-3 px-6 rounded-md hover:bg-blue-700" onClick={() => navigate('/login')}>Start Shopping</button>
-                    <button className="bg-transparent border border-white text-white py-3 px-6 rounded-md hover:text-blue-900">Learn More</button>
+        <section
+            className="relative text-center py-48 bg-cover bg-center bg-no-repeat"
+            style={{ backgroundImage: `url('/StockImage.jpg')` }}
+        >
+            <div className="absolute inset-0 bg-black/70"></div>
+            <div className="relative z-10 max-w-4xl mx-auto px-6">
+                <h1 className="text-5xl md:text-7xl font-extrabold text-white leading-tight mb-6 drop-shadow-lg">
+                    Price Your Stores in Real-time
+                </h1>
+                <p className="text-xl md:text-2xl text-white mb-10 drop-shadow-md">
+                    Find great deals for both buyer and seller
+                </p>
+                <div className="flex flex-col md:flex-row justify-center items-center gap-6">
+                    <button
+                        className="bg-blue-600 hover:bg-blue-700 text-white text-lg font-medium py-3 px-8 rounded-full transition duration-300"
+                        onClick={() => navigate('/login')}
+                    >
+                        Start Shopping
+                    </button>
+                    
                 </div>
             </div>
         </section>
     );
-    
 }
 
 export default Hero;
