@@ -1,0 +1,101 @@
+name,start_price,quantity,volume_per_month,sold,saved,max_price,min_price,current_price,category,current_time
+Hydroflask,47.33,1845,396,345,189,56.8,37.86,47.16,Outdoor Gear,4/5/2025
+Yeti,38.76,150,98,793,128,46.51,31.01,44.24,Outdoor Gear,4/5/2025
+iPhone Case,33.34,1389,320,907,115,23.76,11.51,17.62,Electronics,4/5/2025
+Samsung Case,13.49,1118,474,667,125,16.19,10.79,14.44,Electronics,4/5/2025
+Leather Wallet,30.4,1724,253,119,34,29.73,15.14,29.28,Accessories,4/5/2025
+Socks,11.2,316,492,556,35,9.52,4.4,4.77,Apparel,4/5/2025
+Jacket,51.56,1035,106,994,108,61.87,41.25,44.55,Apparel,4/5/2025
+Winter Gloves,26.44,1136,37,879,68,24.74,12.37,16.01,Apparel,4/5/2025
+Bluetooth Speaker,74.87,1037,224,395,33,40.13,29.37,39.62,Electronics,4/5/2025
+Wireless Mouse,16.2,198,68,812,138,19.44,12.96,13.97,Electronics,4/5/2025
+Laptop Sleeve,21.73,288,171,171,171,26.08,17.38,25.04,Electronics,4/5/2025
+Smartwatch,147.05,1293,451,510,67,176.46,117.64,161.23,Electronics,4/5/2025
+Headphones,121.09,1105,135,668,111,59.58,48.73,56.72,Electronics,4/5/2025
+Portable Charger,42.22,1405,488,950,99,38.63,19.97,37.65,Electronics,4/5/2025
+Keyboard,90.86,1909,384,57,103,109.03,72.69,80.66,Electronics,4/5/2025
+T-shirt,16.27,527,372,178,143,11.46,3.63,7.39,Apparel,4/5/2025
+Sweater,46.89,1694,308,857,21,39.24,20.46,29.68,Apparel,4/5/2025
+Backpack,25.35,1757,61,490,112,30.42,20.28,21.85,Accessories,4/5/2025
+Notebook,9.58,798,83,871,123,11.5,7.66,8.16,Stationery,4/5/2025
+Pen,9.29,1980,406,343,197,3.99,1.02,2.88,Stationery,4/5/2025
+Macbook,18.66,1494,145,794,104,22.39,14.93,22.19,Electronics,4/5/2025
+Ring,51.91,1560,389,531,23,62.29,41.53,51.46,Accessories,4/5/2025
+Sunglasses,69.6,1417,271,474,117,10.19,3.47,6.94,Accessories,4/5/2025
+Umbrella,16.6,652,72,312,18,19.92,13.28,17.79,Outdoor Gear,4/5/2025
+Book,68.4,1431,50,639,31,82.08,54.72,73.26,Books,4/5/2025
+Magazine,60.21,1200,329,876,46,72.25,48.17,66.98,Books,4/5/2025
+Newspaper,66.62,919,375,129,173,79.94,53.3,64.54,Books,4/5/2025
+Lamp,82.65,100,460,386,27,78.58,33.67,46.54,Home Appliances,4/5/2025
+Desk Chair,33.8,542,366,173,153,32.54,16.62,23.65,Furniture,4/5/2025
+Monitor,47.72,1836,219,745,172,57.26,38.18,47.23,Electronics,4/5/2025
+Mouse Pad,6.89,1741,265,565,26,8.27,5.51,6.78,Electronics,4/5/2025
+Gaming Console,26.83,1945,447,413,46,32.2,21.46,24.24,Electronics,4/5/2025
+Game Controller,27.07,1029,492,782,108,32.48,21.66,24.83,Electronics,4/5/2025
+Smartphone,97.03,924,373,617,113,73.86,47.02,47.86,Electronics,4/5/2025
+Tablet,22.94,1717,391,354,167,27.53,18.35,24,Electronics,4/5/2025
+Smart TV,70.79,709,451,532,47,21.71,11.07,19.4,Electronics,4/5/2025
+Camera,61.31,301,347,266,192,43.5,15.73,18.98,Electronics,4/5/2025
+Tripod,49.76,186,143,383,117,15.25,5.02,5.15,Electronics,4/5/2025
+Yoga Mat,48.9,1569,105,582,194,26.19,10.28,21.91,Sports Equipment,4/5/2025
+Dumbbells,55.57,596,357,131,27,66.68,44.46,55.13,Sports Equipment,4/5/2025
+Tennis Racket,82.78,1127,379,389,159,99.34,66.22,70.69,Sports Equipment,4/5/2025
+Football,84.13,1739,491,651,124,33.89,5.25,8.01,Sports Equipment,4/5/2025
+Basketball,12.03,541,313,468,172,14.44,9.62,14.01,Sports Equipment,4/5/2025
+Soccer Ball,42.07,895,443,630,97,22.04,11.62,18.21,Sports Equipment,4/5/2025
+Baseball Bat,50.1,271,39,196,81,60.12,40.08,48.29,Sports Equipment,4/5/2025
+Bike,9.1,105,171,850,149,10.92,7.28,10.85,Outdoor Gear,4/5/2025
+Skateboard,80.06,231,48,720,173,12.76,4.74,9.02,Sports Equipment,4/5/2025
+Electric Scooter,17.4,762,258,554,138,20.88,13.92,19.08,Outdoor Gear,4/5/2025
+Backpack,21.81,1769,328,639,37,21.31,19.59,20.48,Accessories,4/5/2025
+Suitcase,6.67,495,179,137,176,8,5.34,7.64,Travel,4/5/2025
+Travel Pillow,5.39,227,88,534,151,6.47,4.31,4.96,Travel,4/5/2025
+Luggage Set,150.69,494,369,188,175,183.36,140.89,150.49,Travel,4/5/2025
+Wallet,9.92,1436,49,914,49,11.9,7.94,10.62,Accessories,4/5/2025
+Coin Purse,8.13,206,126,159,135,9.76,6.5,9.38,Accessories,4/5/2025
+Flashlight,87.68,1613,116,691,196,59.76,10.06,46.04,Outdoor Gear,4/5/2025
+Power Bank,25.88,1410,411,355,72,8.36,2.27,3.1,Electronics,4/5/2025
+Water Bottle,43.71,456,141,216,139,52.45,34.97,48.83,Outdoor Gear,4/5/2025
+Thermos,14.23,1694,428,740,127,17.08,11.38,13.88,Kitchen Appliances,4/5/2025
+Coffeemaker,69.62,921,38,732,200,83.54,55.7,58.52,Kitchen Appliances,4/5/2025
+Electric Kettle,29.46,1098,480,945,163,7.26,3.78,5.7,Miscellaneous,4/5/2025
+Blender,7.32,1024,335,208,178,8.78,5.86,8.18,Miscellaneous,4/5/2025
+Toaster,57.03,335,412,86,191,10.19,0.84,3.98,Miscellaneous,4/5/2025
+Juicer,69.99,873,90,920,74,10.85,4.23,8.74,Miscellaneous,4/5/2025
+Microwave,169.35,658,110,843,190,186.31,150.25,162.84,Kitchen Appliances,4/5/2025
+Dishwasher,164.32,786,366,980,96,190.36,150.16,160.32,Kitchen Appliances,4/5/2025
+Fridge,120.36,760,322,718,16,180.17,101.99,102.68,Kitchen Appliances,4/5/2025
+Oven,67.9,786,381,170,161,53.54,35.89,45.57,Kitchen Appliances,4/5/2025
+Freezer,18.48,847,183,823,168,22.18,14.78,20.47,Kitchen Appliances,4/5/2025
+Smart Lock,63.86,1778,436,103,191,24.06,6.2,20.72,Home Appliances,4/5/2025
+Doorbell Camera,16.88,910,330,734,62,20.26,13.5,14.24,Home Appliances,4/5/2025
+Security Camera,47.49,217,340,677,71,32.98,12.87,21.28,Home Appliances,4/5/2025
+Air Purifier,15.9,195,326,191,129,10.04,0.53,1.17,Home Appliances,4/5/2025
+Vacuum Cleaner,59.56,1021,326,965,124,71.47,47.65,64.03,Home Appliances,4/5/2025
+Heater,14.92,704,272,973,137,17.9,11.94,12.43,Home Appliances,4/5/2025
+Air Conditioner,58.06,1179,131,209,47,69.67,46.45,57.69,Home Appliances,4/5/2025
+Fan,52.67,1445,307,755,189,19.89,9.3,11.72,Home Appliances,4/5/2025
+Dehumidifier,80.12,718,138,611,88,69.93,40.22,69.76,Home Appliances,4/5/2025
+Paint Brush,59.87,362,31,771,103,71.84,47.9,67.45,Art Supplies,4/5/2025
+Canvas,15.48,1839,484,553,120,18.58,12.38,15.42,Art Supplies,4/5/2025
+Easel,42.1,829,436,700,90,19.36,5.15,11.59,Art Supplies,4/5/2025
+Art Supplies,31.99,581,409,884,54,29.81,16.33,25.53,Art Supplies,4/5/2025
+Sketchbook,78.8,1917,282,814,125,40.37,17.65,19.97,Art Supplies,4/5/2025
+Colored Pencils,7.31,445,410,514,199,8.77,5.85,8.6,Art Supplies,4/5/2025
+Guitar,34.36,700,453,414,103,18.48,6.74,17.15,Musical Instruments,4/5/2025
+Violin,19.8,639,323,662,71,23.76,15.84,19.57,Musical Instruments,4/5/2025
+Piano,50.92,1214,496,951,67,61.1,40.74,56.16,Musical Instruments,4/5/2025
+Cello,410.76,926,378,609,34,492.91,328.61,374.76,Musical Instruments,4/5/2025
+Drum Set,95.41,211,98,902,90,6.31,4.41,6.05,Musical Instruments,4/5/2025
+Flute,59.15,52,342,252,155,70.98,47.32,68.49,Musical Instruments,4/5/2025
+Trumpet,837.78,1347,364,271,134,685.4,423.27,475.83,Musical Instruments,4/5/2025
+Electric Guitar,159.36,997,167,487,106,201.35,125.36,150.02,Musical Instruments,4/5/2025
+Keyboard,254.22,543,204,188,90,305.06,203.38,230.59,Electronics,4/5/2025
+Recording Mic,44.78,570,489,129,136,22.28,9.05,10.24,Musical Instruments,4/5/2025
+Headphones,205.69,416,338,877,89,49.61,36,42.58,Electronics,4/5/2025
+Camera Lens,75.58,162,271,902,199,64.01,49.2,58.2,Electronics,4/5/2025
+Car Tires,64.46,561,465,436,165,33.71,8.46,27.24,Automotive,4/5/2025
+Car Seat Cover,68.39,622,274,742,200,82.07,54.71,58.02,Automotive,4/5/2025
+Car Vacuum,76.06,876,481,768,39,26.83,11.31,13.81,Automotive,4/5/2025
+Car Charger,12.65,963,304,591,184,15.18,10.12,11.13,Automotive,4/5/2025
+Motorcycle Helmet,309.36,780,216,584,79,371.23,247.49,342.73,Automotive,4/5/2025
