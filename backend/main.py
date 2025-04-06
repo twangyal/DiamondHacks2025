@@ -182,6 +182,7 @@ def get_saved_bookings(User: schemas.TokenData = Depends(security.decode_access_
         if product:
             bookings_response.append(
                 schemas.BookingResponse(
+                    booking_id=booking.id,
                     name=product.name,
                     locked_price=booking.locked_price,
                     current_price=product.current_price,
@@ -191,6 +192,65 @@ def get_saved_bookings(User: schemas.TokenData = Depends(security.decode_access_
             )
     
     return bookings_response
+
+@app.post("/book/{product_id}")
+def book_product(product_id: int, User: schemas.TokenData = Depends(security.decode_access_token), db: Session = Depends(get_db)):
+    # Ensure the user is authenticated
+    if not User:
+        raise HTTPException(status_code=401, detail="Invalid authentication credentials")
+    
+    # Get the user id from the token
+    user = crud.get_user_by_username(db, username=User.username)
+    if not user:
+        raise HTTPException(status_code=404, detail="User not found")
+    
+    # Check if the product exists
+    product = crud.get_product_by_id(db, product_id=product_id)
+    if not product:
+        raise HTTPException(status_code=404, detail="Product not found")
+    
+    # Check if the product is already booked by the user
+    existing_booking = crud.get_future_discount_bookings_by_user_id(db, user_id=user.id)
+    if existing_booking and existing_booking[0].product_id == product.id:
+        # Allow only one booking per product for a user
+        raise HTTPException(status_code=400, detail="You already have a booking for this product")
+    
+    #Check if the booker is the seller of the product
+    if product.seller_id == user.id:
+        raise HTTPException(status_code=400, detail="You cannot book your own product")
+
+    # Create a booking for the product
+    booking = crud.create_future_discount_booking(db, schemas.BookingCreate(product_id=product.id, user_id=user.id))
+    if not booking:
+        raise HTTPException(status_code=500, detail="Failed to create booking")
+    
+    return booking
+
+@app.delete("/book/{booking_id}")
+def cancel_booking(booking_id: int, User: schemas.TokenData = Depends(security.decode_access_token), db: Session = Depends(get_db)):
+    # Ensure the user is authenticated
+    if not User:
+        raise HTTPException(status_code=401, detail="Invalid authentication credentials")
+    
+    # Get the user id from the token
+    user = crud.get_user_by_username(db, username=User.username)
+    if not user:
+        raise HTTPException(status_code=404, detail="User not found")
+    
+    # Check if the booking exists and belongs to the user
+    booking = crud.get_booking_by_id(db, booking_id=booking_id)
+    if not booking:
+        raise HTTPException(status_code=404, detail="Booking not found")
+    
+    if booking.user_id != user.id:
+        raise HTTPException(status_code=403, detail="You do not have permission to cancel this booking")
+
+    # Cancel the booking
+    deleted_booking = crud.delete_future_discount_booking(db, booking_id=booking_id)
+    if not deleted_booking:
+        raise HTTPException(status_code=500, detail="Failed to cancel booking")
+    
+    return deleted_booking
 
 @app.get("/transactions", response_model=list[schemas.TransactionResponse])
 def get_user_transactions(User: schemas.TokenData = Depends(security.decode_access_token), db: Session = Depends(get_db)):

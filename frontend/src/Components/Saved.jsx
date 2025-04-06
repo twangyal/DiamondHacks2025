@@ -13,6 +13,33 @@ const Saved = () => {
         setSidebarOpen(!sidebarOpen);
     };
 
+    const handleDelete = async ({booking_id}) => {
+        const token = localStorage.getItem('accessToken');
+        if (!token) {
+            setError('User not authenticated');
+            return;
+        }
+        console.log('Deleting booking with ID:', booking_id); // Log the booking_id for debugging
+        console.log(bookings)
+        try {
+            const response = await axios.delete(`http://localhost:8000/book/${booking_id}`, {
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            });
+            if (response.status === 200) {
+                setSuccess('Booking deleted successfully!');
+                setTimeout(() => {
+                    // Redirect to listings page or any other page after successful delete
+                    navigate('/saved');
+                }, 500);
+            }
+        } catch (error) {
+            setError('Error deleting item');
+            console.error(error);
+        }
+    };
+
     useEffect(() => {
         const fetchData = async () => {
             const token = localStorage.getItem('accessToken');
@@ -27,6 +54,7 @@ const Saved = () => {
                     }
                 });
                 setBookings(response.data); // Assuming you want to set some state with the response data
+                console.log('Bookings fetched:', response.data); // Log the fetched bookings for debugging
             } catch (error) {
                 setError('Error fetching items');
                 console.error(error);
@@ -60,12 +88,13 @@ const Saved = () => {
                                 <th className="py-2">Items Remaining</th>
                                 <th className="py-2">Date Booked</th>
                                 <th className="py-2">Days Till Expiry</th>
+                                <th className="py-2" style={{ width: '150px' }}>Actions</th>
                             </tr>
                         </thead>
                         <tbody>
                             {bookings.length > 0 ? (
                                 bookings.map((item) => (
-                                    <tr key={item.id}>
+                                    <tr key={item.booking_id}>
                                         <td className="border-t px-6 py-4">{item.name}</td>
                                         <td className="border-t px-6 py-4">{item.locked_price}</td>
                                         <td className="border-t px-6 py-4">{item.current_price}</td>
@@ -77,12 +106,15 @@ const Saved = () => {
                                                 (() => {
                                                     const bookingDate = new Date(item.bookingdate);
                                                     const expiryDate = new Date(bookingDate);
-                                                    expiryDate.setDate(expiryDate.getDate() + 7); // Assuming 7 days expiry
+                                                    expiryDate.setDate(expiryDate.getDate() + 6); // Assuming 7 days expiry
                                                     const diffTime = Math.abs(expiryDate - new Date());
                                                     const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
                                                     return diffDays > 0 ? diffDays : 'Expired';
                                                 })()
                                             }
+                                        </td>
+                                        <td className="border-t px-6 py-4">
+                                        <button className="text-red-500 hover:text-red-700" onClick={() => handleDelete(item.booking_id)}>Delete</button>
                                         </td>
                                     </tr>
                                 ))

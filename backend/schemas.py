@@ -59,6 +59,7 @@ class BookingCreate(BaseModel):
         from_attributes = True
 
 class BookingResponse(BaseModel):
+    booking_id: int
     name: str
     locked_price: float
     current_price: float
