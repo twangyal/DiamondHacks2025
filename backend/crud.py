@@ -253,3 +253,59 @@ def get_pricing_history_by_product_id(db: Session, product_id: int):
     if not db_pricing_history:
         return []  # Return an empty list if no pricing history found
     return db_pricing_history
+
+
+
+
+
+
+
+# crud.py
+def get_all_products(db: Session):
+    return db.query(model.Product).all()
+# crud.py
+def search_products(db: Session, query: str):
+    return db.query(model.Product).filter(model.Product.name.ilike(f'%{query}%')).all()
+# crud.py
+def get_user_bookings(db: Session, user_id: int):
+    return db.query(model.Booking).filter(model.Booking.user_id == user_id).all()
+# crud.py
+def book_item(db: Session, user_id: int, product_id: int):
+    # Check if the product is available
+    db_product = db.query(model.Product).filter(model.Product.id == product_id).first()
+    if not db_product:
+        raise ValueError("Product not found")
+    
+    # Ensure the product is not already booked
+    existing_booking = db.query(model.FutureDiscountBooking).filter(
+        model.FutureDiscountBooking.product_id == product_id,
+        model.FutureDiscountBooking.user_id == user_id).first()
+    
+    if existing_booking:
+        raise ValueError("Product is already booked")
+    
+    # Create a new booking record for the product
+    booking = model.FutureDiscountBooking(
+        user_id=user_id,
+        product_id=product_id,
+        locked_price=db_product.current_price if db_product.current_price else db_product.startprice
+    )
+
+    db.add(booking)
+    db.commit()
+    db.refresh(booking)
+    return booking
+
+def remove_booking(db: Session, user_id: int, product_id: int):
+    # Find the booking
+    booking = db.query(model.FutureDiscountBooking).filter(
+        model.FutureDiscountBooking.product_id == product_id,
+        model.FutureDiscountBooking.user_id == user_id).first()
+    
+    if not booking:
+        raise ValueError("Booking not found")
+    
+    db.delete(booking)
+    db.commit()
+    return booking
+
