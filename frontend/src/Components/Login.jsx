@@ -22,7 +22,7 @@ const Login = () => {
             // Store token and handle redirection
             // In your login component, make sure to set the token correctly
             localStorage.setItem('accessToken', response.data.access_token);
-            navigate('/dashboard');
+            navigate('/home');
         } catch (error) {
             setError('Invalid credentials or server error');
         }
@@ -33,14 +33,14 @@ const Login = () => {
 
         try {
             const response = await axios.post('http://localhost:8000/login', {
-                username:"Tsering",
-                password:"Tsering"
+                username:"Guest",
+                password:"Guest"
             });
 
             // Store token and handle redirection
             // In your login component, make sure to set the token correctly
             localStorage.setItem('accessToken', response.data.access_token);
-            navigate('/dashboard');
+            navigate('/home');
         } catch (error) {
             setError('Invalid credentials or server error');
         }

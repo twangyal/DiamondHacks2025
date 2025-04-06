@@ -15,13 +15,21 @@ def get_products_by_seller_id(db: Session, seller_id: int):
     return db_products
 
 def create_product(db: Session, product: schemas.ProductCreate, seller_id: int):
+    if product.min_price is None or product.min_price < 0:
+        product.min_price = product.startprice * .8  # Default to startprice if min_price is not provided or invalid
+    if product.max_price is None or product.max_price < 0:
+        product.max_price = product.startprice * 1.2
+    if product.min_price is not None and product.max_price is not None and product.min_price > product.max_price:
+        raise ValueError("Minimum price cannot be greater than maximum price")
+    current_price = product.startprice  # Set the current price to startprice initially
     db_product = model.Product(name=product.name,
                                 startprice=product.startprice,
-                                minprice=product.min_price,
-                                maxprice=product.max_price,
+                                min_price=product.min_price,
+                                max_price=product.max_price,
                                 quantity=product.quantity,
                                 description=product.description,
-                                seller_id=seller_id  # Set the seller_id for the product
+                                seller_id=seller_id,  # Set the seller_id for the product
+                                current_price=current_price  # Set the initial current price
                                 )
     db.add(db_product)
     db.commit()
@@ -35,9 +43,9 @@ def update_product(db: Session, product_id: int, product: schemas.ProductCreate)
 
     # Update the product's attributes
     db_product.name = product.name
-    db_product.startprice = product.startprice
-    db_product.minprice = product.min_price
-    db_product.maxprice = product.max_price
+    db_product.min_price = product.min_price
+    db_product.max_price = product.max_price
+    db_product.startprice = product.startprice  # Ensure startprice is updated
     db_product.quantity = product.quantity
     db_product.description = product.description
 
@@ -116,17 +124,14 @@ def create_transaction(db: Session, transaction: schemas.TransactionCreate):
         raise ValueError("Cannot sell more than available stock")
     
     #Calculate the total price for the transaction
-    if db_product.current_price is None:
-        # Fallback to startprice if current_price is not set
-        total_price = db_product.startprice * transaction.quantity_sold
-    else:
-        total_price = db_product.current_price * transaction.quantity_sold
+    total_price = db_product.current_price * transaction.quantity_sold
     
     # Create a new sales data entry
     db_transaction = model.SalesData(
         product_id=transaction.product_id,
         buyer_id=transaction.buyer_id,
         quantity_sold=transaction.quantity_sold,
+        price = db_product.current_price,  # Current price of the product at the time of sale
         total_price=total_price  # Total price for the transaction
     )
 
@@ -166,7 +171,7 @@ def create_future_discount_booking(db: Session, booking: schemas.BookingCreate):
     db_booking = model.FutureDiscountBooking(
         user_id=booking.user_id,
         product_id=booking.product_id,
-        locked_price=db_product.current_price if db_product.current_price is not None else db_product.startprice,  # Lock the price
+        locked_price=db_product.current_price  # Lock the price
     )
 
     db_product.saved_quantity += 1  # Increment the saved quantity for the product, if needed
@@ -230,7 +235,7 @@ def create_price_change(db: Session, price_change: schemas.PriceChangeCreate):
         raise ValueError("Product not found")
     
     # Store the old price before updating
-    old_price = db_product.current_price if db_product.current_price is not None else db_product.startprice
+    old_price = db_product.current_price
     
     # Update the product's current price
     db_product.current_price = price_change.new_price

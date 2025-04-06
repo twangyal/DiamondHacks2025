@@ -1,10 +1,14 @@
 import './App.css';
-import Trade from './Components/Trade.jsx';
 import Login from './Components/Login.jsx';
 import Dashboard from './Components/Dashboard';
 import Register from './Components/Register.jsx';
 import Lander from './Components/Lander.jsx';
-import TradeHistory from './Components/TradeHistory.jsx';
+import Home from './Components/Home.jsx';
+import Profile from './Components/Profile.jsx';
+import Listings from './Components/Listings.jsx';
+import CreateListing from './Components/CreateListing.jsx';
+import Edit from './Components/Edit.jsx';
+import Saved from './Components/Saved.jsx';
 import React, { useEffect, useState } from 'react';
 import { Route, Routes, Navigate } from 'react-router-dom';
 import './styles.css';
@@ -15,11 +19,15 @@ function App() {
         <div className="App">
             <Routes>
                 <Route path="/" element={<Lander />} />
-                <Route path="/login" element={<Login />} />
+                <Route path="/login" element={<Login />} />         
                 <Route path="/register" element={<Register />} />
-                <Route path="/dashboard" element= {<Dashboard />}/>
-                <Route path="/trade" element= {<Trade />} />
-                <Route path="/trade-history" element={<TradeHistory/>} />
+                <Route path="/home" element={<Home />} />
+                <Route path="/listings" element={<Listings />} />
+                <Route path="/create" element={<CreateListing />} />
+                <Route path="/edit/:id" element={<Edit />} />
+                <Route path="/saved" element={<Saved />} />
+                <Route path="/profile" element= {<Profile />}/>
+
             </Routes>
         </div>
     );

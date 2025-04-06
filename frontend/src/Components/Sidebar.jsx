@@ -18,9 +18,10 @@ const Sidebar = ({ isOpen, onClose }) => {
             <div className="p-6">
                 <button className="absolute top-4 right-4 text-xl" onClick={onClose}>X</button>
                 <div className="mt-8">
-                    <button onClick={() => handleNavigate('/dashboard')} className="block w-full text-left py-2 px-4 hover:bg-gray-200">Home</button>
-                    <button onClick={() => handleNavigate('/trade')} className="block w-full text-left py-2 px-4 hover:bg-gray-200">Trade</button>
-                    <button onClick={() => handleNavigate('/trade-history')} className="block w-full text-left py-2 px-4 hover:bg-gray-200">View Trade History</button>
+                    <button onClick={() => handleNavigate('/home')} className="block w-full text-left py-2 px-4 hover:bg-gray-200">Home</button>
+                    <button onClick={() => handleNavigate('/profile')} className="block w-full text-left py-2 px-4 hover:bg-gray-200">Profile</button>
+                    <button onClick={() => handleNavigate('/saved')} className="block w-full text-left py-2 px-4 hover:bg-gray-200">Saved</button>
+                    <button onClick={() => handleNavigate('/listings')} className="block w-full text-left py-2 px-4 hover:bg-gray-200">Listings</button>
                     <button onClick={() => handleLogout()} className="block w-full text-left py-2 px-4 hover:bg-gray-200">Log Out</button>
                 </div>
             </div>

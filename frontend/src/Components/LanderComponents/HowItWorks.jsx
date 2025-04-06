@@ -12,7 +12,7 @@ function HowItWorks() {
             <p>Sign up in seconds and get started.</p>
             </div>
             <div className="w-full md:w-1/4 p-6 text-center">
-            <h3 className="text-xl font-semibold mb-4">Set Up Your Portfolio</h3>
+            <h3 className="text-xl font-semibold mb-4"></h3>
             <p>Choose your starting capital and select the stocks or assets you want to trade.</p>
             </div>
             <div className="w-full md:w-1/4 p-6 text-center">

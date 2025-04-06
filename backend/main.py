@@ -3,9 +3,18 @@ from datetime import timedelta
 from sqlalchemy.ext.asyncio import AsyncEngine, create_async_engine
 from sqlalchemy.orm import Session
 import crud, schemas, database, security
-
+from fastapi.middleware.cors import CORSMiddleware
 
 app = FastAPI()
+
+# Add CORS middleware
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],  # Allow all origins or specify your frontend URL
+    allow_credentials=True,
+    allow_methods=["*"],  # Allow all HTTP methods (GET, POST, etc.)
+    allow_headers=["*"],  # Allow all headers
+)
 
 # Dependency to get the database session
 def get_db():
@@ -48,18 +57,15 @@ def login(User: schemas.UserLogin, db: Session = Depends(get_db)):
         "token_type": "bearer"
     }
 
-@app.get('/mylistings')
-def read_user_data(User: schemas.TokenData = Depends(security.decode_access_token), db: Session = Depends(get_db)):
-    # Ensure the user is authenticated
-    if not User:
-        raise HTTPException(status_code=401, detail="Invalid authentication credentials")
-    seller_id = crud.get_user_by_username(db, username=User.username).id
-    products = crud.get_products_by_seller_id(db, seller_id=seller_id)
+@app.get("/explore")
+def explore(db: Session = Depends(get_db)):
+    products = crud.get_products(db)
+    if not products:
+        raise HTTPException(status_code=404, detail="No products found")
     return products
 
 @app.get("/users/{username}/products", response_model=list[schemas.ProductCreate])
 def get_user_products(username: str, db: Session = Depends(get_db)):
-    
     user = crud.get_user_by_username(db, username=username)
     if not user:
         raise HTTPException(status_code=404, detail="User not found")
@@ -69,29 +75,29 @@ def get_user_products(username: str, db: Session = Depends(get_db)):
     return products
 
 @app.post("/create_product", response_model=schemas.ProductCreate)
-def create_product(Product: schemas.ProductCreate, User: schemas.Token = Depends(security.decode_access_token, ), db: Session = Depends(get_db)):
+def create_product(Product: schemas.ProductCreate, User: schemas.TokenData = Depends(security.decode_access_token), db: Session = Depends(get_db)):
     # Ensure the user is authenticated
     if not User:
         raise HTTPException(status_code=401, detail="Invalid authentication credentials")
     
     # Get the seller id from the token
-    seller_id = crud.get_user_by_username(db, username=User['sub']).id
+    seller_id = crud.get_user_by_username(db, username=User.username).id
     if not seller_id:
         raise HTTPException(status_code=404, detail="Seller not found")
-    # Create the product in the database
+    # Validate the input data
     product = crud.create_product(db, Product, seller_id)
     if not product:
         raise HTTPException(status_code=500, detail="Failed to create product")
     return product
 
-@app.delete("/products/{product_id}", response_model=schemas.ProductCreate)
-def delete_product(product_id: int, User: schemas.Token = Depends(security.decode_access_token), db: Session = Depends(get_db)):
+@app.delete("/item/{product_id}", response_model=schemas.ProductCreate)
+def delete_product(product_id: int, User: schemas.TokenData = Depends(security.decode_access_token), db: Session = Depends(get_db)):
     # Ensure the user is authenticated
     if not User:
         raise HTTPException(status_code=401, detail="Invalid authentication credentials")
     
     # Get the seller id from the token
-    seller_id = crud.get_user_by_username(db, username=User['sub']).id
+    seller_id = crud.get_user_by_username(db, username=User.username).id
     if not seller_id:
         raise HTTPException(status_code=404, detail="Seller not found")
     
@@ -109,3 +115,105 @@ def delete_product(product_id: int, User: schemas.Token = Depends(security.decod
         raise HTTPException(status_code=500, detail="Failed to delete product")
     
     return deleted_product
+
+@app.put("/item/{product_id}", response_model=schemas.ProductCreate)
+def update_product(product_id: int, Product: schemas.ProductCreate, User: schemas.TokenData = Depends(security.decode_access_token), db: Session = Depends(get_db)):
+    # Ensure the user is authenticated
+    if not User:
+        raise HTTPException(status_code=401, detail="Invalid authentication credentials")
+    
+    # Get the seller id from the token
+    seller_id = crud.get_user_by_username(db, username=User.username).id
+    if not seller_id:
+        raise HTTPException(status_code=404, detail="Seller not found")
+    
+    # Check if the product exists and belongs to the seller
+    product = crud.get_product_by_id(db, product_id=product_id)
+    if not product:
+        raise HTTPException(status_code=404, detail="Product not found")
+    
+    if product.seller_id != seller_id:
+        raise HTTPException(status_code=403, detail="You do not have permission to update this product")
+
+    # Update the product
+    updated_product = crud.update_product(db, product_id=product_id, product=Product)
+    if not updated_product:
+        raise HTTPException(status_code=500, detail="Failed to update product")
+    
+    return updated_product
+
+@app.get("/listings")
+def read_user_data(User: schemas.TokenData = Depends(security.decode_access_token), db: Session = Depends(get_db)):
+    # Ensure the user is authenticated
+    if not User:
+        raise HTTPException(status_code=401, detail="Invalid authentication credentials")
+    seller = crud.get_user_by_username(db, username=User.username)
+    products = crud.get_products_by_seller_id(db, seller_id=seller.id)
+    return products
+
+@app.get("/item/{product_id}")
+def get_product_details(product_id: int, User: schemas.TokenData = Depends(security.decode_access_token), db: Session = Depends(get_db)):
+    if not User:
+        raise HTTPException(status_code=401, detail="Invalid authentication credentials")
+    product = crud.get_product_by_id(db, product_id=product_id)
+    if not product:
+        raise HTTPException(status_code=407, detail="Product not found")
+    return product
+
+@app.get("/booked", response_model=list[schemas.BookingResponse])
+def get_saved_bookings(User: schemas.TokenData = Depends(security.decode_access_token), db: Session = Depends(get_db)):
+    # Ensure the user is authenticated
+    if not User:
+        raise HTTPException(status_code=401, detail="Invalid authentication credentials")
+    
+    # Get the user id from the token
+    user = crud.get_user_by_username(db, username=User.username)
+    if not user:
+        raise HTTPException(status_code=404, detail="User not found")
+    
+    # Fetch the saved bookings for the user
+    bookings = crud.get_future_discount_bookings_by_user_id(db, user_id=user.id)
+    # Transform bookings to the response model
+    bookings_response = []
+    for booking in bookings:
+        product = crud.get_product_by_id(db, product_id=booking.product_id)
+        if product:
+            bookings_response.append(
+                schemas.BookingResponse(
+                    name=product.name,
+                    locked_price=booking.locked_price,
+                    current_price=product.current_price,
+                    quantity=product.quantity,
+                    bookingdate=booking.booked_at.isoformat() if booking.booked_at else None
+                )
+            )
+    
+    return bookings_response
+
+@app.get("/transactions", response_model=list[schemas.TransactionResponse])
+def get_user_transactions(User: schemas.TokenData = Depends(security.decode_access_token), db: Session = Depends(get_db)):
+    # Ensure the user is authenticated
+    if not User:
+        raise HTTPException(status_code=401, detail="Invalid authentication credentials")
+    
+    # Get the user id from the token
+    user = crud.get_user_by_username(db, username=User.username)
+    if not user:
+        raise HTTPException(status_code=404, detail="User not found")
+    # Fetch the sales data for the user
+    sales_data = crud.get_sales_data_by_buyer_id(db, buyer_id=user.id)
+    # Transform sales data to the response model
+    sales_data_response = []
+    for sale in sales_data:
+        product = crud.get_product_by_id(db, product_id=sale.product_id)
+        if product:
+            sales_data_response.append(
+                schemas.TransactionResponse(
+                    product_name=product.name,
+                    quantity_sold=sale.quantity_sold,
+                    price=float(sale.price),
+                    total_price=float(sale.total_price),
+                    sold_at=sale.sold_at.isoformat() if sale.sold_at else None
+                )
+            )
+    return sales_data_response

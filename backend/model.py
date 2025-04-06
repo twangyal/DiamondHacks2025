@@ -13,10 +13,10 @@ class Product(Base):
     quantity = Column(Integer, default=0)
     saved_quantity = Column(Integer, default=0)
     sold_quantity = Column(Integer, default=0)
-    min_price = Column(DECIMAL, nullable=True)
-    max_price = Column(DECIMAL, nullable=True)
+    min_price = Column(DECIMAL)
+    max_price = Column(DECIMAL)  # Allow a 20% dynamic pricing range above the start price
     volume = Column(Integer, default=0)
-    current_price = Column(DECIMAL, nullable=True)
+    current_price = Column(DECIMAL)
     description = Column(String(255), nullable=True)
     seller_id = Column(Integer, ForeignKey('users.id'), nullable=False)
     created_at = Column(TIMESTAMP, default=datetime.datetime.utcnow)
@@ -61,6 +61,7 @@ class SalesData(Base):
     product_id = Column(Integer, ForeignKey('products.id', ondelete='CASCADE'))
     buyer_id = Column(Integer, ForeignKey('users.id'))
     quantity_sold = Column(Integer, nullable=False)
+    price = Column(DECIMAL, nullable=False)  # This is the price at which the product was sold
     total_price = Column(DECIMAL, nullable=False)
     sold_at = Column(TIMESTAMP, default=datetime.datetime.utcnow)
 
