@@ -1,16 +1,22 @@
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 import os
+from dotenv import load_dotenv
 
-# Database URL from environment variables or .env file
-DATABASE_URL = os.getenv("DATABASE_URL", "postgresql://your_username:your_password@localhost:5432/your_dbname")
+load_dotenv()
+
+DATABASE_URL = os.getenv("DATABASE_URL")
+
+if DATABASE_URL is None:
+    raise ValueError("DATABASE_URL is not set correctly in environment variables or .env file.")
+
 
 # Set up the database engine
-engine = create_engine(DATABASE_URL, connect_args={"check_same_thread": False})
+engine = create_engine(DATABASE_URL)
 
 # Create a session local class
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 
 # Create tables if they don't exist
-from . import models
-models.Base.metadata.create_all(bind=engine)
+import model
+model.Base.metadata.create_all(bind=engine)
